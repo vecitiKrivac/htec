@@ -3,25 +3,20 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Requests\Api\RegisterUser;
+use App\Http\Requests\Api\Auth\RegisterUser;
 use App\Http\Resources\Auth\UserResource;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Services\UserService;
 
 class RegisterController extends AppBaseController
 {
-    public function register(RegisterUser $request)
+
+    public function register(RegisterUser $request, UserService $service)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
-        $token = $user->createToken('personalToken');
+        $data = $service->register($request);
 
         return $this->sendResponse([
-            'user' => new UserResource($user),
-            'token' => $token->plainTextToken
+            'user' => new UserResource($data['user']),
+            'token' => $data['token']
         ], 'User is registered successfully.', true, 201);
     }
 }

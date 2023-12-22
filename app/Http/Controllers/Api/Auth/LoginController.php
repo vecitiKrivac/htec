@@ -3,27 +3,25 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Requests\Api\LoginUser;
+use App\Http\Requests\Api\Auth\LoginUser;
 use App\Http\Resources\Auth\UserResource;
+use App\Http\Services\UserService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends AppBaseController
 {
     use AuthenticatesUsers;
 
-    public function login(LoginUser $request)
+    public function login(LoginUser $request, UserService $service)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user = Auth::user();
-            $token = $user->createToken('personalToken');
+        if ($data = $service->login($request)) {
 
             return $this->sendResponse([
-                'user' => new UserResource($user),
-                'token' => $token->plainTextToken
+                'user' => new UserResource($data['user']),
+                'token' => $data['token']
             ], 'User is logged successfully.');
-        } else {
-            return $this->sendError('Unauthorized', 401);
         }
+
+        return $this->sendError('Unauthorized', 401);
     }
 }
