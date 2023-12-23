@@ -6,7 +6,7 @@ use App\Models\Country;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
-class CitySeeder extends Seeder
+class CountrySeeder extends Seeder
 {
     /**
      * Run the database seeds.
