@@ -36,7 +36,7 @@ class CityController extends AppBaseController
     {
         try {
             return $this->sendResponse(
-                new CityResource($service->create($request)),
+                new CityResource($service->create($request->all())),
                 'City added successfully',
                 true,
                 201
@@ -67,7 +67,7 @@ class CityController extends AppBaseController
      */
     public function update(string $id, CityRequest $request, CityService $service)
     {
-        if ($city = $service->update($id, $request)) {
+        if ($city = $service->update($id, $request->all())) {
             return $this->sendResponse(
                 new CityResource($city),
                 'City updated successfully'

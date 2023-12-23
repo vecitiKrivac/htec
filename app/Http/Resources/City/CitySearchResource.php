@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\City;
 
-use App\Http\Resources\Comment\CommentResource;
+use App\Http\Resources\Comment\CityCommentResource;
 use App\Http\Resources\Country\CountryResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,7 +21,7 @@ class CitySearchResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'country' => new CountryResource($this->whenLoaded('country')),
-            'comments' => CommentResource::collection($this->whenLoaded('comments'))
+            'comments' => CityCommentResource::collection($this->whenLoaded('comments'))
         ];
     }
 }
