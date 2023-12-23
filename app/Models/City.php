@@ -15,7 +15,6 @@ class City extends Model
         'description'
     ];
 
-
     // public function country()
     // {
     //     return $this->belongsTo(Country::class);
