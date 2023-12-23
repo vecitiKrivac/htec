@@ -8,6 +8,7 @@ use App\Http\Resources\City\CityResource;
 use App\Http\Services\CityService;
 use Database\Seeders\CitySeeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CityController extends AppBaseController
 {
@@ -24,15 +25,17 @@ class CityController extends AppBaseController
      */
     public function store(CityRequest $request, CityService $service)
     {
-        $city = $service->create($request);
-
-        // TODO add CityResource
-        return $this->sendResponse(
-            new CityResource($city),
-            'City added successfully',
-            true,
-            201
-        );
+        try {
+            return $this->sendResponse(
+                new CityResource($service->create($request)),
+                'City added successfully',
+                true,
+                201
+            );
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return $this->sendError('An error occurred while saving the data', 500);
+        }
     }
 
     /**
@@ -70,13 +73,17 @@ class CityController extends AppBaseController
      */
     public function destroy($id, CityService $service)
     {
-        if ($city = $service->destroy($id)) {
-            return $this->sendResponse(
-                new CityResource($city),
-                'City deleted successfully'
-            );
+        try {
+            if ($city = $service->destroy($id)) {
+                return $this->sendResponse(
+                    new CityResource($city),
+                    'City deleted successfully'
+                );
+            }
+            return $this->sendError('Resource not found');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return $this->sendError('An error has occurred in the database', 500);
         }
-
-        return $this->sendError('Resource not found');
     }
 }

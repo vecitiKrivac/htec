@@ -8,6 +8,7 @@ use App\Http\Resources\Airport\AirportResource;
 use App\Http\Services\AirportService;
 use App\Http\Services\FileService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AirportController extends AppBaseController
 {
@@ -24,7 +25,6 @@ class AirportController extends AppBaseController
      */
     public function store(FileRequest $request, FileService $fileService, AirportService $airportService)
     {
-        // TODO include transaction
         try {
             $file = $fileService->create($request, 'airport');
             $airports = $airportService->insert($file);
@@ -35,12 +35,9 @@ class AirportController extends AppBaseController
                 true,
                 201
             );
-            return $this->sendResponse();
         } catch (\Exception $e) {
-            // Loguj grešku ako je potrebno
-            // Log::error($e);
-
-            return $this->sendError('Failed to store file', 500);
+            Log::error($e->getMessage());
+            return $this->sendError('An error occurred while saving the data', 500);
         }
     }
 

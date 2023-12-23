@@ -4,45 +4,58 @@ namespace App\Http\Services;
 
 use App\Http\Requests\Api\City\CityRequest;
 use App\Models\City;
+use Illuminate\Support\Facades\DB;
 
 class CityService
 {
     public function create(CityRequest $request)
     {
-        return City::create([
-            'country_id' => $request->input('country_id'),
-            'name' => $request->input('name'),
-            'description' => $request->input('description')
-        ]);
+        try {
+            return City::create([
+                'country_id' => $request->input('country_id'),
+                'name' => $request->input('name'),
+                'description' => $request->input('description')
+            ]);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     public function update($id, CityRequest $request)
     {
-        $city = $this->getCity($id);
+        try {
+            $city = $this->getCity($id);
 
-        if ($city) {
-            $city->fill($request->all());
-            $city->save();
+            if ($city) {
+                $city->fill($request->all());
+                $city->save();
 
-            return $city;
+                return $city;
+            }
+        } catch (\Exception $e) {
+            throw $e;
         }
-
-        return false;
     }
 
     public function destroy($id)
     {
-        $city = $this->getCity($id);
+        try {
+            DB::beginTransaction();
+            $city = $this->getCity($id);
 
-        if ($city) {
-            // $city->airports()->delete();
-            // $city->comments()->delete();
-            $city->delete();
+            if ($city) {
+                // $city->airports()->delete();
+                // $city->comments()->delete();
+                $city->delete();
+                DB::commit();
 
-            return $city;
+                return $city;
+            }
+            return;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        return false;
     }
 
     public function getCity($id)
