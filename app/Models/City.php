@@ -25,8 +25,8 @@ class City extends Model
         return $this->hasMany(Airport::class);
     }
 
-    // public function comments()
-    // {
-    //     return $this->hasMany(Comment::class)->latest();
-    // }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->latest();
+    }
 }

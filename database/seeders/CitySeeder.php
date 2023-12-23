@@ -38,7 +38,7 @@ class CitySeeder extends FileParserSeeder
 
             foreach ($content as $val) {
 
-                if (!array_key_exists($val[2], $data)) {
+                if ($val[2] != '' && !array_key_exists($val[2], $data)) {
                     $data[$val[2]] = [
                         'country_id' => $countries[$val[3]],
                         'name' => $val[2],

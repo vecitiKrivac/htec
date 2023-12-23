@@ -67,4 +67,20 @@ class CityService
     {
         return City::all()->pluck('id', 'name');
     }
+
+    public function getCities($filter)
+    {
+        $cities = City::with(['country', 'comments' => function ($query) use ($filter) {
+            $query->latest();
+            if ($filter['counter_per_record']) {
+                $query->limit($filter['counter_per_record']);
+            }
+        }]);
+
+        if (isset($filter['city'])) {
+            $cities->where('name', 'like', "%{$filter['city']}%");
+        }
+
+        return $cities->orderBy('name')->get();
+    }
 }

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\Api\City\CityRequest;
+use App\Http\Requests\Api\City\CitySearchRequest;
 use App\Http\Resources\City\CityResource;
+use App\Http\Resources\City\CitySearchResource;
 use App\Http\Services\CityService;
-use Database\Seeders\CitySeeder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class CityController extends AppBaseController
@@ -15,9 +15,18 @@ class CityController extends AppBaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(CitySearchRequest $request, CityService $service)
     {
-        die('display cities');
+        try {
+            $cities = $service->getCities($request->all());
+            return $this->sendResponse(
+                CitySearchResource::collection($cities),
+                'City data retrived successfully'
+            );
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return $this->sendError('An error occurred while saving the data', 500);
+        }
     }
 
     /**

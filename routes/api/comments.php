@@ -7,5 +7,7 @@ Route::group([
     'prefix' => 'comments',
     'as' => 'comments'
 ], function () {
-    Route::get('/', [CommentController::class, 'index'])->name('comments.name');
+    Route::post('/', [CommentController::class, 'store'])->name('comments.store');
+    Route::put('/{id}', [CommentController::class, 'update'])->name('comments.update');
+    Route::delete('/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
