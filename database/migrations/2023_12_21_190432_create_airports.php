@@ -21,7 +21,7 @@ return new class extends Migration
             $table->double('latitude');
             $table->double('longitude');
             $table->integer('altitude');
-            $table->tinyInteger('time_zone_utc');
+            $table->tinyInteger('time_zone_utc')->nullable();
             $table->string('dst', 1);
             $table->string('source');
             $table->timestamps();

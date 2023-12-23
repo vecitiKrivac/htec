@@ -16,7 +16,7 @@ class AirportService
 
     public function insert($file)
     {
-        $airports = $this->getAirports();
+        $airports = $this->getAirportsById();
         $cities = $this->cityService->getCitiesName();
         $content = array_map('str_getcsv', file($file->file_path));
         $now = now();
@@ -65,7 +65,7 @@ class AirportService
         }
     }
 
-    public function getAirports()
+    public function getAirportsById()
     {
         return Airport::All()->keyBy('id');
     }

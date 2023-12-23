@@ -29,12 +29,16 @@ class AirportController extends AppBaseController
             $file = $fileService->create($request, 'airport');
             $airports = $airportService->insert($file);
 
-            return $this->sendResponse(
-                AirportResource::collection($airports),
-                'Airports added successfully',
-                true,
-                201
-            );
+            if (count($airports) > 0) {
+                return $this->sendResponse(
+                    AirportResource::collection($airports),
+                    'Airports added successfully',
+                    true,
+                    201
+                );
+            } else {
+                return $this->sendError('Invalid data', 422);
+            }
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return $this->sendError('An error occurred while saving the data', 500);
