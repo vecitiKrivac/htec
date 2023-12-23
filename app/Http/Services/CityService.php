@@ -35,11 +35,11 @@ class CityService
         $city = $this->getCity($id);
 
         if ($city) {
-            var_dump($city);
-            die;
             // $city->airports()->delete();
             // $city->comments()->delete();
             $city->delete();
+
+            return $city;
         }
 
         return false;

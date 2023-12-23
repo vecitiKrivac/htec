@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\Api\City\CityRequest;
+use App\Http\Resources\City\CityResource;
 use App\Http\Services\CityService;
+use Database\Seeders\CitySeeder;
+use Illuminate\Http\Request;
 
 class CityController extends AppBaseController
 {
@@ -24,24 +27,42 @@ class CityController extends AppBaseController
         $city = $service->create($request);
 
         // TODO add CityResource
-        $this->sendResponse($city, 'City added successfully', true, 201);
+        return $this->sendResponse(
+            new CityResource($city),
+            'City added successfully',
+            true,
+            201
+        );
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id, CityService $service)
     {
-        //
+        if ($city = $service->getCity($id)) {
+            return $this->sendResponse(
+                new CityResource($city),
+                'City retrived successfully'
+            );
+        }
+
+        return $this->sendError('Resource not found');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(CityRequest $request, string $id, CityService $service)
+    public function update(string $id, CityRequest $request, CityService $service)
     {
-        $city = $service->update($id, $request);
-        $this->sendResponse($city, 'City updated successfully');
+        if ($city = $service->update($id, $request)) {
+            return $this->sendResponse(
+                new CityResource($city),
+                'City updated successfully'
+            );
+        }
+
+        return $this->sendError('Resource not found');
     }
 
     /**
@@ -49,7 +70,13 @@ class CityController extends AppBaseController
      */
     public function destroy($id, CityService $service)
     {
-        $city = $service->destroy($id);
-        $this->sendResponse($city, 'City updated successfully');
+        if ($city = $service->destroy($id)) {
+            return $this->sendResponse(
+                new CityResource($city),
+                'City deleted successfully'
+            );
+        }
+
+        return $this->sendError('Resource not found');
     }
 }
