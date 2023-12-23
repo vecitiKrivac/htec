@@ -21,6 +21,7 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::group(['middleware' => ['api', 'auth:sanctum']], function () {
     require __DIR__ . '/api/countries.php';
     require __DIR__ . '/api/cities.php';
+    require __DIR__ . '/api/airports.php';
     require __DIR__ . '/api/comments.php';
 });
 

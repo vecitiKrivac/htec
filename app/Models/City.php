@@ -15,15 +15,15 @@ class City extends Model
         'description'
     ];
 
-    // public function country()
-    // {
-    //     return $this->belongsTo(Country::class);
-    // }
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 
-    // public function airports()
-    // {
-    //     return $this->hasMany(Airport::class);
-    // }
+    public function airports()
+    {
+        return $this->hasMany(Airport::class);
+    }
 
     // public function comments()
     // {

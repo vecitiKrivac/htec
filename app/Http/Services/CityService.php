@@ -49,4 +49,9 @@ class CityService
     {
         return City::find($id);
     }
+
+    public function getCitiesName()
+    {
+        return City::all()->pluck('id', 'name');
+    }
 }

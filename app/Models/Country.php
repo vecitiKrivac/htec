@@ -18,8 +18,8 @@ class Country extends Model
         'name'
     ];
 
-    // public function cities()
-    // {
-    //     return $this->hasMany(City::class);
-    // }
+    public function cities()
+    {
+        return $this->hasMany(City::class);
+    }
 }
