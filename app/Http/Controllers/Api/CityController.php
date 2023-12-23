@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AppBaseController;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\City\CityRequest;
+use App\Http\Services\CityService;
 
 class CityController extends AppBaseController
 {
@@ -16,20 +17,14 @@ class CityController extends AppBaseController
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CityRequest $request, CityService $service)
     {
-        var_dump($request->all());
-        die($request);
+        $city = $service->create($request);
+
+        // TODO add CityResource
+        $this->sendResponse($city, 'City added successfully', true, 201);
     }
 
     /**
@@ -41,26 +36,20 @@ class CityController extends AppBaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CityRequest $request, string $id, CityService $service)
     {
-        //
+        $city = $service->update($id, $request);
+        $this->sendResponse($city, 'City updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id, CityService $service)
     {
-        //
+        $city = $service->destroy($id);
+        $this->sendResponse($city, 'City updated successfully');
     }
 }

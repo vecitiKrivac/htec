@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
-use App\Http\Controllers\Api\CityController;
-use App\Http\Controllers\Api\CommentController;
 use Illuminate\Support\Facades\Route;
 
 /*

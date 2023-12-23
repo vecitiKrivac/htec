@@ -10,7 +10,8 @@ Route::group([
     Route::get('/', [CityController::class, 'index'])->name('cities.name');
 
     Route::group(['middleware' => ['isAdmin']], function () {
-        Route::post('/', [App\Http\Controllers\Api\CityController::class, 'store'])->name('cities.store');
-        Route::put('/{id}', [App\Http\Controllers\Api\CityController::class, 'update'])->name('cities.update');
+        Route::post('/', [CityController::class, 'store'])->name('cities.store');
+        Route::put('/{id}', [CityController::class, 'update'])->name('cities.update');
+        Route::delete('/{id}', [CityController::class, 'destroy'])->name('cities.destroy');
     });
 });
