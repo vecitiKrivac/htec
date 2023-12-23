@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Country;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\File;
 
-class CountrySeeder extends Seeder
+class CountrySeeder extends FileParserSeeder
 {
     /**
      * Run the database seeds.
@@ -39,17 +37,6 @@ class CountrySeeder extends Seeder
             return $data;
         }
 
-        return false;
-    }
-
-    private function parseCsv()
-    {
-        $filePath = storage_path('app/init/airports.csv');
-        if (File::exists($filePath)) {
-            return array_map('str_getcsv', file($filePath));
-        }
-
-        $this->command->error('file doesnt exist');
         return false;
     }
 }
