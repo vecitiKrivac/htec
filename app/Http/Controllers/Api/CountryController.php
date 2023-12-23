@@ -13,10 +13,8 @@ class CountryController extends AppBaseController
      */
     public function index(CountryService $service)
     {
-        $countries = $service->getCountries();
-
         return $this->sendResponse(
-            new CountryCollection($countries),
+            new CountryCollection($service->getCountries()),
             'Countries retrieved successfully',
             true,
             200,
