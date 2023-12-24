@@ -69,4 +69,9 @@ class RouteService
     {
         return Route::All()->keyBy('airline_id');
     }
+
+    public function getAllRoutes()
+    {
+        return Route::All();
+    }
 }

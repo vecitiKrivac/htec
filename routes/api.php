@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\FlightController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,4 +25,5 @@ Route::group(['middleware' => ['api', 'auth:sanctum']], function () {
     require __DIR__ . '/api/airports.php';
     require __DIR__ . '/api/routes.php';
     require __DIR__ . '/api/comments.php';
+    Route::get('/flights', [FlightController::class, 'index']);
 });
