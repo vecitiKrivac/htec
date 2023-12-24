@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Requests\Comment\CommentRequest;
+use App\Http\Requests\Api\Comment\CommentRequest;
 use App\Http\Resources\Comment\CommentResource;
 use App\Http\Services\CommentService;
 use Illuminate\Support\Facades\Auth;
