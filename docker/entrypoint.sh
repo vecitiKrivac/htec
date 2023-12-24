@@ -24,6 +24,7 @@ if [ "$role" = "app" ]; then
     php artisan cache:clear
     php artisan config:clear
     php artisan route:clear
+    php artisan storage:link
 
     # only first time when run script and migrate table
     # php artisan db:seed
