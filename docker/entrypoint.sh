@@ -4,7 +4,7 @@ if [ ! -f "vendor/autoload.php" ]; then
     composer install --no-progress --no-interaction
 fi
 
-until nc -z -w5 database-mysql 3306; do
+until nc -z -w5 database-htec 3306; do
   echo "Waiting for MySQL server to be ready..."
   sleep 1
 done
