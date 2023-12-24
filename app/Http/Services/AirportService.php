@@ -65,8 +65,10 @@ class AirportService
         }
     }
 
-    public function getAirportsById()
+    public function getAirportsById($relation = false)
     {
-        return Airport::All()->keyBy('id');
+        return $relation
+            ? Airport::with($relation)->get()->keyBy('id')
+            : Airport::All()->keyBy('id');
     }
 }

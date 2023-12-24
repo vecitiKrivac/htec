@@ -28,13 +28,13 @@ class Airport extends Model
         return $this->belongsTo(City::class);
     }
 
-    // public function sourceRoutes()
-    // {
-    //     return $this->hasMany(Route::class, 'source_airport_id');
-    // }
+    public function sourceRoutes()
+    {
+        return $this->hasMany(Route::class, 'source_airport_id');
+    }
 
-    // public function destinationRoutes()
-    // {
-    //     return $this->hasMany(Route::class, 'destination_airport_id');
-    // }
+    public function destinationRoutes()
+    {
+        return $this->hasMany(Route::class, 'destination_airport_id');
+    }
 }

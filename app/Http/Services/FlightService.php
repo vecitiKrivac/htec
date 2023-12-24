@@ -28,13 +28,12 @@ class FlightService
     private function getFlightsData($routes, $prices)
     {
         if ($routes) {
-            $airports = $this->airportService->getAirportsById();
+            $airports = $this->airportService->getAirportsById('city');
 
             asort($prices);
             foreach ($prices as $key => $val) {
                 $data[] = [
-                    'price' => $val,
-                    // 'route_id' => $routes[$key],
+                    'price' => number_format($val, 2),
                     'route' => $this->getRouteAirports($routes[$key], $airports)
                 ];
             }
