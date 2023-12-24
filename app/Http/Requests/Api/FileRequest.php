@@ -22,7 +22,7 @@ class FileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|mimes:csv,txt|max:800'
+            'file' => 'required|mimes:csv,txt|max:1024'
         ];
     }
 
