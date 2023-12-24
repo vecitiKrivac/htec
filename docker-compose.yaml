@@ -1,0 +1,66 @@
+version: "3.8"
+
+networks:
+  htec:
+    driver: bridge
+
+services:
+  # Database Server
+  database-mysql:
+    container_name: database-mysql
+    image: mysql:8.0
+    ports:
+      - "${HOST_DB_PORT}:3306"
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - db-data-htec:/var/lib/mysql
+    networks:
+      - htec
+
+  # PHP Service
+  php-htec:
+    container_name: php-htec
+    build:
+      context: .
+      target: php
+      args:
+        - APP_ENV=${APP_ENV}
+        - CONTAINER_ROLE=app
+    cpus: 2
+    mem_limit: 2g
+    environment:
+      - APP_ENV=${APP_ENV}
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./php.ini:/usr/local/etc/php/conf.d/php.ini
+    ports:
+      - "${HOST_PORT}:8000"
+    depends_on:
+      - database-mysql
+    networks:
+      - htec
+
+  # PhpMyAdmin Service
+  phpmyadmin-htec:
+    image: phpmyadmin:5.1.0-apache
+    container_name: phpmyadmin-htec
+    restart: unless-stopped
+    ports:
+      - "${HOST_PHA_PORT}:80"
+    environment:
+      PMA_HOST: database-mysql
+      PMA_PORT: ${DB_PORT}
+      PMA_USER: ${DB_USERNAME}
+      PMA_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      - database-mysql
+    networks:
+      - htec
+
+volumes:
+  db-data-htec: ~
