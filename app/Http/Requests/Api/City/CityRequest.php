@@ -23,7 +23,8 @@ class CityRequest extends FormRequest
     {
         return [
             'country_id' => 'required|numeric',
-            'name' => 'required|max:255'
+            'name' => 'required|max:255',
+            'description' => 'required'
         ];
     }
 }

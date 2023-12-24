@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use App\Http\Services\CountryService;
 use App\Models\City;
-use Illuminate\Support\Facades\File;
-use Illuminate\Database\Seeder;
 
 class CitySeeder extends FileParserSeeder
 {
@@ -24,6 +22,7 @@ class CitySeeder extends FileParserSeeder
             $chunks = array_chunk($data, 100);
             foreach ($chunks as $chunk) {
                 City::insert($chunk);
+                break; //only first 100
             }
         }
     }
@@ -37,12 +36,11 @@ class CitySeeder extends FileParserSeeder
             $time = now();
 
             foreach ($content as $val) {
-
                 if ($val[2] != '' && !array_key_exists($val[2], $data)) {
                     $data[$val[2]] = [
                         'country_id' => $countries[$val[3]],
                         'name' => $val[2],
-                        'description' => '',
+                        'description' => City::factory(City::class)->make()->description,
                         'created_at' => $time,
                         'updated_at' => $time
                     ];
